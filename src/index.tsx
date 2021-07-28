@@ -196,7 +196,7 @@ function App() {
     });
   };
 
-  const toogleFinishItem = (id: string) => {
+  const toggleFinishItem = (id: string) => {
     setIsLoadingCheckboxById(id);
     axios.put(process.env.REACT_APP_BASE_URL + '/todo-list/' + id).then(response => {
       setIsLoadingCheckboxById('');
@@ -212,7 +212,7 @@ function App() {
           placeholder="Enter new task"
           value={title}
           onChange={event => {
-            if (isLoadingInput === false) {
+            if (!isLoadingInput) {
               setTitle(event.currentTarget.value);
             }
           }}
@@ -231,7 +231,7 @@ function App() {
                 {isLoadingCheckboxById === item.id ? (
                   <SpinnerCheckbox type="checkbox" defaultChecked disabled />
                 ) : (
-                  <Checkbox type="checkbox" checked={item.isFinish} onChange={() => toogleFinishItem(item.id)} />
+                  <Checkbox type="checkbox" checked={item.isFinish} onChange={() => toggleFinishItem(item.id)} />
                 )}
                 <Description>{item.title}</Description>
                 {isLoadingItemById === item.id ? (
