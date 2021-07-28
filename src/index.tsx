@@ -87,6 +87,7 @@ const Description = styled.span`
   line-height: 16.41px;
   margin-top: 2px;
   width: 224px;
+  word-break: break-all;
   /* background-color: red; */
 `;
 
