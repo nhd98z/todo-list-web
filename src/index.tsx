@@ -205,6 +205,8 @@ function App() {
     });
   };
 
+  console.log(`I'm here: 1`);
+
   return (
     <Wrapper>
       <InputWrapper>
