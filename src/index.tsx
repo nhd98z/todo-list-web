@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -157,14 +157,14 @@ const SpinnerCheckbox = styled(Checkbox)`
 `;
 
 function App() {
-  const [list, setList] = React.useState<Todo[]>([]);
-  const [title, setTitle] = React.useState('');
-  const [isLoadingTodoList, setIsLoadingTodoList] = React.useState(false);
-  const [isLoadingInput, setIsLoadingInput] = React.useState(false);
-  const [isLoadingCheckboxById, setIsLoadingCheckboxById] = React.useState('');
-  const [isLoadingItemById, setIsLoadingItemById] = React.useState('');
+  const [list, setList] = useState<Todo[]>([]);
+  const [title, setTitle] = useState('');
+  const [isLoadingTodoList, setIsLoadingTodoList] = useState(false);
+  const [isLoadingInput, setIsLoadingInput] = useState(false);
+  const [isLoadingCheckboxById, setIsLoadingCheckboxById] = useState('');
+  const [isLoadingItemById, setIsLoadingItemById] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     pullList();
   }, []);
 
