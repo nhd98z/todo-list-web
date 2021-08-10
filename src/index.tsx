@@ -206,6 +206,7 @@ function App() {
   };
 
   console.log(`I'm here: 1`);
+  console.log(`I'm here: 2`);
 
   return (
     <Wrapper>
