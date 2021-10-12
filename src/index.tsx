@@ -165,7 +165,7 @@ function App() {
 
   const pullList = () => {
     setIsLoadingTodoList(true);
-    axios.get(url + '/todo-list/').then(response => {
+    axios.get(url + '/todo-list').then(response => {
       setIsLoadingTodoList(false);
       const { data } = response;
       setList(data);
@@ -175,7 +175,7 @@ function App() {
   const handleEnterNewItem = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (title !== '' && event.key === 'Enter') {
       setIsLoadingInput(true);
-      axios.post(url + '/todo-list/', { title }).then(response => {
+      axios.post(url + '/todo-list', { title }).then(response => {
         setIsLoadingInput(false);
         pullList();
         setTitle('');
@@ -191,7 +191,7 @@ function App() {
 
   const toggleFinishItem = (id: string) => {
     setIsLoadingCheckboxById(id);
-    axios.put(process.env.REACT_APP_BASE_URL + '/todo-list/' + id).then(response => {
+    axios.put(url + '/todo-list/' + id).then(response => {
       setIsLoadingCheckboxById('');
       pullList();
     });
