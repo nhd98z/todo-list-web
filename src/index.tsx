@@ -46,6 +46,7 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
+
     &::placeholder {
       color: #979797;
     }
@@ -121,6 +122,7 @@ const Item = styled.div`
 
   &:hover {
     background-color: #e4e7d5;
+
     ${DeleteButton}:after {
       visibility: visible;
     }
@@ -130,12 +132,6 @@ const Item = styled.div`
 const SpinnerTodoList = styled.img`
   text-align: center;
   height: 20px;
-`;
-
-const SpinnerItem = styled.img`
-  height: 15px;
-  margin-top: 3px;
-  margin-left: 4px;
 `;
 
 const SpinnerInput = styled.img`
@@ -162,7 +158,6 @@ function App() {
   const [isLoadingTodoList, setIsLoadingTodoList] = useState(false);
   const [isLoadingInput, setIsLoadingInput] = useState(false);
   const [isLoadingCheckboxById, setIsLoadingCheckboxById] = useState('');
-  const [isLoadingItemById, setIsLoadingItemById] = useState('');
 
   useEffect(() => {
     pullList();
@@ -182,18 +177,15 @@ function App() {
       setIsLoadingInput(true);
       axios.post(url + '/todo-list/', { title }).then(response => {
         setIsLoadingInput(false);
-        const newItem: Todo = response.data;
-        setList(prevList => [...prevList, newItem]);
+        pullList();
         setTitle('');
       });
     }
   };
 
   const handleDeleteItem = (id: string) => {
-    setIsLoadingItemById(id);
     axios.delete(url + '/todo-list/' + id).then(response => {
-      setIsLoadingItemById('');
-      setList(prevList => prevList.filter(item => item.id !== id));
+      pullList();
     });
   };
 
@@ -201,15 +193,9 @@ function App() {
     setIsLoadingCheckboxById(id);
     axios.put(process.env.REACT_APP_BASE_URL + '/todo-list/' + id).then(response => {
       setIsLoadingCheckboxById('');
-      setList(prevList => prevList.map(item => (item.id === id ? { ...item, isFinish: !item.isFinish } : item)));
+      pullList();
     });
   };
-
-  console.log(`I'm here: 1`);
-  console.log(`I'm here: 2`);
-  console.log(`I'm here: 3`);
-  console.log(`I'm here: 4`);
-  console.log(`I'm here: 5`);
 
   return (
     <Wrapper>
@@ -232,7 +218,6 @@ function App() {
           <SpinnerTodoList src={asset_spinner} alt="asset_spinner" />
         ) : (
           <>
-            {/* TODO: Fix bug that loading can only exists in one item. */}
             {list.map(item => (
               <Item key={item.id}>
                 {isLoadingCheckboxById === item.id ? (
@@ -241,11 +226,7 @@ function App() {
                   <Checkbox type="checkbox" checked={item.isFinish} onChange={() => toggleFinishItem(item.id)} />
                 )}
                 <Description>{item.title}</Description>
-                {isLoadingItemById === item.id ? (
-                  <SpinnerItem src={asset_spinner} alt="asset_spinner" />
-                ) : (
-                  <DeleteButton onClick={() => handleDeleteItem(item.id)} />
-                )}
+                <DeleteButton onClick={() => handleDeleteItem(item.id)} />
               </Item>
             ))}
           </>
