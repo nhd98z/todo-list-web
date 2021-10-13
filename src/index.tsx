@@ -160,11 +160,11 @@ function App() {
   const [isLoadingCheckboxById, setIsLoadingCheckboxById] = useState('');
 
   useEffect(() => {
+    setIsLoadingTodoList(true);
     pullList();
   }, []);
 
   const pullList = () => {
-    setIsLoadingTodoList(true);
     axios.get(url + '/todo-list').then(response => {
       setIsLoadingTodoList(false);
       const { data } = response;
