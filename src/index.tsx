@@ -161,14 +161,20 @@ function App() {
 
   useEffect(() => {
     setIsLoadingTodoList(true);
-    pullList();
+
+    setInterval(() => {
+      pullList();
+    }, 1000);
   }, []);
 
-  const pullList = () => {
+  const pullList = (id?: string) => {
     axios.get(url + '/todo-list').then(response => {
       setIsLoadingTodoList(false);
       const { data } = response;
       setList(data);
+      setIsLoadingCheckboxById('');
+      setIsLoadingInput(false);
+      setTitle('');
     });
   };
 
@@ -176,9 +182,7 @@ function App() {
     if (title !== '' && event.key === 'Enter') {
       setIsLoadingInput(true);
       axios.post(url + '/todo-list', { title }).then(response => {
-        setIsLoadingInput(false);
         pullList();
-        setTitle('');
       });
     }
   };
@@ -192,8 +196,7 @@ function App() {
   const toggleFinishItem = (id: string) => {
     setIsLoadingCheckboxById(id);
     axios.put(url + '/todo-list/' + id).then(response => {
-      setIsLoadingCheckboxById('');
-      pullList();
+      pullList(id);
     });
   };
 
