@@ -174,7 +174,6 @@ function App() {
       setList(data);
       setIsLoadingCheckboxById('');
       setIsLoadingInput(false);
-      setTitle('');
     });
   };
 
@@ -183,6 +182,7 @@ function App() {
       setIsLoadingInput(true);
       axios.post(url + '/todo-list', { title }).then(response => {
         pullList();
+        setTitle('');
       });
     }
   };
